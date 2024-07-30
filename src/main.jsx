@@ -8,6 +8,8 @@ import './index.css'
 import Error from "./pages/Error/index"
 import Layout from './components/Layout/index';
 import Home from './pages/Home/index';
+import Ask from './pages/Ask/index';
+import Redirect from './pages/Redirect';
 
 const router = createBrowserRouter([
 	{
@@ -16,13 +18,21 @@ const router = createBrowserRouter([
 		errorElement: <Error />,
 		children: [
 			{
-				path: "/home",
+				path: "/*",
+				element: <Redirect />
+			},
+			{
+				path: "/",
 				element: <Home />
 			},
 			{
 				path: "/questions/:id",
 				element: <Home />
 			},
+			{
+				path: "/ask",
+				element: <Ask />
+			}
 
 		]
 	},
