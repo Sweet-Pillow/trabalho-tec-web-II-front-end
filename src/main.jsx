@@ -10,6 +10,7 @@ import Layout from './components/Layout/index';
 import Home from './pages/Home/index';
 import Ask from './pages/Ask/index';
 import Redirect from './pages/Redirect';
+import Question from './pages/Question/index';
 
 const router = createBrowserRouter([
 	{
@@ -26,8 +27,8 @@ const router = createBrowserRouter([
 				element: <Home />
 			},
 			{
-				path: "/questions/:id",
-				element: <Home />
+				path: "/question/",
+				element: <Question />
 			},
 			{
 				path: "/ask",
