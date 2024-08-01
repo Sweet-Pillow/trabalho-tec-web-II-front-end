@@ -1,3 +1,5 @@
+import AddTag from "../../components/AddTag"
+
 export default function () {
 	return (
 		<div className="w-full flex justify-center items-center flex-col gap-5">
@@ -9,6 +11,7 @@ export default function () {
 			<div className="p-10 shadow-2xl rounded border border-gray-300 w-10/12 flex flex-col">
 				<label htmlFor="description" className="text-xl ">Descrição</label>
 				<textarea name="description" rows={4} cols={1} className="resize-none focus:border-blue-800 focus:outline-none focus:ring-1 border border-gray-400 rounded-lg w-full placeholder:text-sm placeholder:px-1 py-1"></textarea>
+				<AddTag />
 			</div>
 
 			<div className="p-10 shadow-2xl rounded border border-gray-300 w-10/12 flex justify-start">

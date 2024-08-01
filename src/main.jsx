@@ -11,6 +11,7 @@ import Home from './pages/Home/index';
 import Ask from './pages/Ask/index';
 import Redirect from './pages/Redirect';
 import Question from './pages/Question/index';
+import Login from './pages/Login';
 
 const router = createBrowserRouter([
 	{
@@ -27,16 +28,20 @@ const router = createBrowserRouter([
 				element: <Home />
 			},
 			{
-				path: "/question/",
+				path: "/question/:id?",
 				element: <Question />
 			},
 			{
 				path: "/ask",
 				element: <Ask />
-			}
+			},
 
 		]
 	},
+	{
+		path: "/login",
+		element: <Login />
+	}
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

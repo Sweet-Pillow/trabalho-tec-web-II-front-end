@@ -19,7 +19,7 @@ export default function () {
 				<p>{data.answers} Respostas</p>
 			</div>
 			<div className="pl-5 py-4 flex flex-col gap-2 w-2/4">
-				<Link to={"/questions/" + data.idQuestion} className="text-lg text-blue-600 hover:text-blue-800">{data.title}</Link>
+				<Link to={"/question/" + data.idQuestion} className="text-lg text-blue-600 hover:text-blue-800">{data.title}</Link>
 				<div className="flex justify-between">
 					<div className="flex flex-row gap-x-2">
 						{data.tags.map((tagName, index) =>

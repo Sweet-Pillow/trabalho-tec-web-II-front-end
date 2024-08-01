@@ -37,7 +37,7 @@ export default function () {
 
 				<div className="flex flex-row gap-5">
 					<div className="flex flex-row text-xs">
-						<p className="text-gray-700">Perguntada por:&nbsp;</p>
+						<p className="text-gray-700">Perguntado por:&nbsp;</p>
 						<p>{dataQuestion.userName}</p>
 					</div>
 					<div className="flex flex-row text-xs">
@@ -68,7 +68,7 @@ export default function () {
 				<p> Resposta(s)</p>
 			</div>
 
-			{/* Inicio sessão de comentarios */}
+			{/* Inicio sessão de visualizar comentarios */}
 
 			{dataAnswer.map((content, index) => 
 				(
@@ -76,29 +76,18 @@ export default function () {
 				))
 			}
 
+			{/* Fim sessão de visualizar comentarios */}
 
-			{/* <div className="flex flex-row border-t border-gray-300 py-4">
-				<Vote votes={dataAnswer[0].votes} />
+			{/* Inicio sessão de postar comentarios */}
 
-				<div className="px-10 flex flex-col gap-y-6">
+			<div className="flex flex-col gap-1 border-t border-gray-300 mb-4 mt-8">
+				<label htmlFor="answer" className="text-[1.3rem] py-4">Escrever uma resposta</label>
+				<textarea name="answer" rows={4} cols={1} className="resize-none focus:border-blue-800 focus:outline-none focus:ring-1 border border-gray-400 rounded-lg w-full placeholder:text-sm placeholder:px-1 py-1"></textarea>
+				<button type="button" className='mt-2 bg-blue-600 text-white rounded px-2 py-2 w-fit h-fit hover:bg-blue-700'>Responder</button>
+			</div>
 
-					<div className="flex flex-row gap-5">
-						<div className="flex flex-row text-xs">
-							<p className="text-gray-700">Respondida por:&nbsp;</p>
-							<p>{dataAnswer[0].userName}</p>
-						</div>
-						<div className="flex flex-row text-xs">
-							<p className="text-gray-700">Criada em:&nbsp;</p>
-							<p>{dataAnswer[0].createData}</p>
-						</div>
-					</div>
-
-					<p className="text-lg">{dataAnswer[0].answer}</p>
-				</div>
-
-			</div> */}
-
-			{/* Fim sessão de comentarios */}
+			{/* Fim sessão de postar comentarios */}
+			
 		</div>
 	)
 }
