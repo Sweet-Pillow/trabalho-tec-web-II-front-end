@@ -2,18 +2,21 @@ import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
-    const history = useNavigate();
+	const history = useNavigate();
 
-    return (
-        <div className="flex flex-col h-screen">
-            <header className="shadow-xl h-[90px] flex justify-between border-b-2 border-gray-300">
-            </header>
+	return (
+		<div className="h-screen w-screen overflow-hidden">
+			<header className="shadow-xl h-[90px] border-b-2 border-gray-300 w-full">
+			</header>
 
-            <main className="flex flex-row h-full">
+			{/* <main className="flex flex-row h-full">
 				<section className="border-r-2 border-gray-300 border-solid h-full w-1/4">
-				</section>
-                <Outlet />
-            </main>
-        </div>
-    )
+				</section> */}
+			<div className="overflow-auto max-h-full">
+				<Outlet />
+			</div>
+
+			{/* </main> */}
+		</div>
+	)
 }
