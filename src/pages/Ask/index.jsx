@@ -1,42 +1,8 @@
-import Select from 'react-select';
-import React from 'react'
-import { useForm, Controller } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // useNavigate para redirecionamento
 import AddTag from "../../components/AddTag";
 import api from "../../lib/api";
 
-export default function () {
-
-	const opcoesSelect = [
-		{
-			label: "CSS",
-			value: "css"
-		},
-		{
-			label: "HTML",
-			value: "html"
-		},
-		{
-			label: "C",
-			value: "c"
-		},
-		{
-			label: "JavaScript",
-			value: "javascript"
-		},
-		{
-			label: "Rust",
-			value: "rust"
-		},
-		]
-
-	return (
-		<div className="w-full flex justify-center items-center flex-col gap-5">
-			<div className="p-10 shadow-2xl rounded border border-gray-300 w-10/12">
-				<label htmlFor="title" className="text-xl ">Titulo</label>
-				<input type="text" name="title" className="focus:border-blue-800 focus:outline-none focus:ring-1 border border-gray-400 rounded-lg w-full placeholder:text-sm placeholder:px-1 py-1" placeholder="Seja especifico e imagine perguntando isso à outra pessoa." />
-			</div>
 export default function CreateQuestion() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -82,21 +48,6 @@ export default function CreateQuestion() {
         />
       </div>
 
-			<div className="p-10 shadow-2xl rounded border border-gray-300 w-10/12 flex flex-col">
-				<label htmlFor="description" className="text-xl ">Descrição</label>
-				<textarea name="description" rows={4} cols={1} className="resize-none focus:border-blue-800 focus:outline-none focus:ring-1 border border-gray-400 rounded-lg w-full placeholder:text-sm placeholder:px-1 py-1"></textarea>
-				<div className="my-5">
-					<div><h1>Adicionar Tags</h1></div>
-					<Select
-						defaultValue={[opcoesSelect[0]]}
-						isMulti
-						name="tags"
-						options={opcoesSelect}
-						className="basic-multi-select"
-						classNamePrefix="select"
-					/>
-				</div>
-			</div>
       <div className="p-10 shadow-2xl rounded border border-gray-300 w-10/12 flex flex-col">
         <label htmlFor="description" className="text-xl">Descrição</label>
         <textarea
