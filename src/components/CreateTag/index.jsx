@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect } from "react"
+import SelectTag from "../SelectTag/index"
 
-export default function({name}) {
+export default function({setTagList}) {
 	const [openList, setOpenList] = useState(false)
-	const [nameItem, setNameItem] = useState(name)
 	const [renderElement, setRenderElement] = useState(true)
 
 	const opcoesSelect = ["CSS", "HTML", "Javascript", "C", "Rust"]
@@ -14,8 +14,8 @@ export default function({name}) {
 
 	const ElementList = (props) => {
 		const handleChange = () => {
-			setNameItem(props.nameItem)
 			setOpenList(false)
+			setTagList(current => [...current, <SelectTag name={props.nameItem}/>])
 		}
 
 		return (
@@ -55,11 +55,9 @@ export default function({name}) {
 
 	const Element = () => {
 		return (
-			<div className={"relative h-6 overflow-visible select-none " + (nameItem=== "" ? "w-20" : "w-fit")}>
+			<div className="relative h-6 overflow-visible select-none w-20">
 				{openList ? <List /> : <></>}
 				<div onClick={handleList} className="flex items-center flex-row gap-x-1 rounded-md cursor-pointer min-h-full bg-gray-400 hover:bg-gray-500 pl-2">
-					<p>{nameItem}</p>
-					{nameItem!== "" ? <HandleDelete /> : <></>}
 				</div>
 			</div>
 		)
