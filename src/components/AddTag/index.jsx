@@ -1,13 +1,18 @@
 import { useState } from "react"
-import SelectTag from "../SelectTag"
+import CreateTag from "../CreateTag"
 
-export default function() {
+export default function () {
 
-	return(
+	const [tagList, setTagList] = useState([])
+
+	return (
 		<div className="my-5">
 			<div><h1>Adicionar Tags</h1></div>
-			<div className="border border-gray-400 p-2 rounded-lg">
-				<SelectTag />
+			<div className="border border-gray-400 p-2 rounded-lg flex flex-row flex-wrap gap-1">
+				{tagList?.map((_item, index) => {
+					return (<div key={index}>{_item}</div>)
+				})}
+				<CreateTag setTagList={setTagList} />
 			</div>
 		</div>
 	)
