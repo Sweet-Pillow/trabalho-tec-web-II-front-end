@@ -12,6 +12,7 @@ import Ask from './pages/Ask/index';
 import Redirect from './pages/Redirect';
 import Question from './pages/Question/index';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 const router = createBrowserRouter([
 	{
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
 	{
 		path: "/login",
 		element: <Login />
+	},
+	{
+		path: "/register",
+		element: <Register />
 	}
 ]);
 
