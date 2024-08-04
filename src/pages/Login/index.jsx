@@ -15,7 +15,7 @@ export default function LoginForm() {
 
       if (response.status === 200) {
         const { token, refreshToken } = response.data;
-        Cookies.set("token", token, { expires: 1 / 24 }); // 1 hour = 1/24 of a day
+        Cookies.set("token", token); // 1 hour = 1/24 of a day
         Cookies.set("refreshToken", refreshToken, { expires: 7 }); // 7 days
       } else {
         console.error("Login failed:", response.statusText);

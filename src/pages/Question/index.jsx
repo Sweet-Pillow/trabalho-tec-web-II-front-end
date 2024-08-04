@@ -9,20 +9,81 @@ export default function QuestionDetail() {
   const [question, setQuestion] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [newAnswer, setNewAnswer] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [votedAnswerId, setVotedAnswerId] = useState(null); // Para armazenar o ID da resposta votada
 
   useEffect(() => {
-    api
-      .get(`/questions/${id}`)
-      .then((response) => {
-        setQuestion(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
+    const fetchQuestion = async () => {
+      setLoading(true);
+      try {
+        const response = await api.get(`/questions/${id}`);
+        // Ordenar respostas por quantidade de votos (em ordem decrescente)
+        const sortedAnswers = response.data.answers.sort(
+          (a, b) => b.votesAmmount - a.votesAmmount
+        );
+        setQuestion({
+          ...response.data,
+          answers: sortedAnswers,
+        });
+      } catch (error) {
         console.error("Erro ao buscar a pergunta:", error);
         setError(error);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchQuestion();
   }, [id]);
+
+  const handleVote = async (answerId) => {
+    if (votedAnswerId) {
+      alert("Você já votou em uma resposta.");
+      return;
+    }
+
+    try {
+      await api.post(`/answers/${answerId}/vote`);
+      // Atualizar o ID da resposta votada
+      setVotedAnswerId(answerId);
+
+      // Recarregar a questão após o voto
+      const response = await api.get(`/questions/${id}`);
+      const sortedAnswers = response.data.answers.sort(
+        (a, b) => b.votesAmmount - a.votesAmmount
+      );
+      setQuestion({
+        ...response.data,
+        answers: sortedAnswers,
+      });
+    } catch (error) {
+      console.error("Erro ao votar na resposta:", error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!newAnswer.trim()) return; // Não enviar se o campo estiver vazio
+
+    setIsSubmitting(true);
+    try {
+      await api.post(`/answers/${id}`, { content: newAnswer });
+      // Recarregar a questão após o envio
+      const response = await api.get(`/questions/${id}`);
+      const sortedAnswers = response.data.answers.sort(
+        (a, b) => b.votesAmmount - a.votesAmmount
+      );
+      setQuestion({
+        ...response.data,
+        answers: sortedAnswers,
+      });
+      setNewAnswer(""); // Limpar o campo de resposta
+    } catch (error) {
+      console.error("Erro ao postar a resposta:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>Erro ao carregar a pergunta.</p>;
@@ -32,8 +93,7 @@ export default function QuestionDetail() {
 
   return (
     <div className="max-w-[900px] px-6 py-8 md:px-10 flex flex-col">
-      {/* Seção da pergunta */}
-      <div className="px-6 py-8 md:py-8 flex flex-col gap-4  border-b border-gray-200 bg-gray-100 rounded-lg mb-6">
+      <div className="px-6 py-8 md:py-8 flex flex-col gap-4 border-b border-gray-200 bg-gray-100 rounded-lg mb-6">
         <h1 className="text-2xl md:text-3xl font-bold">{title}</h1>
         <div className="flex flex-row justify-between text-sm text-gray-600 mb-4">
           <p>
@@ -52,7 +112,6 @@ export default function QuestionDetail() {
         </div>
       </div>
 
-      {/* Seção de respostas */}
       <div className="text-lg font-semibold mb-4">
         <p>{answers.length} Resposta(s)</p>
       </div>
@@ -60,14 +119,14 @@ export default function QuestionDetail() {
       {answers.map((answer) => (
         <Answer
           key={answer.id}
-          votes={answer.votes || 0}
+          votes={answer.votesAmmount || 0}
           userName={answer.author?.name || "Desconhecido"}
           createData={new Date(answer.createdAt).toLocaleDateString()}
           answer={answer.content}
+          onVote={() => handleVote(answer.id)}
         />
       ))}
 
-      {/* Seção de postar resposta */}
       <div className="flex flex-col gap-2 border-t border-gray-200 pt-4 mt-6">
         <label htmlFor="answer" className="text-lg font-semibold mb-2">
           Escrever uma resposta
@@ -78,12 +137,20 @@ export default function QuestionDetail() {
           cols={1}
           className="resize-none border border-gray-300 rounded-lg w-full px-2 py-1 text-base focus:border-blue-500 focus:ring-1 placeholder:text-sm"
           placeholder="Escreva sua resposta aqui..."
+          value={newAnswer}
+          onChange={(e) => setNewAnswer(e.target.value)}
         ></textarea>
         <button
           type="button"
-          className="mt-2 bg-blue-600 text-white rounded px-4 py-2 hover:bg-blue-700"
+          className={`mt-2 ${
+            isSubmitting ? "bg-gray-400" : "bg-blue-600"
+          } text-white rounded px-4 py-2 hover:${
+            isSubmitting ? "bg-gray-400" : "bg-blue-700"
+          }`}
+          onClick={handleSubmit}
+          disabled={isSubmitting}
         >
-          Responder
+          {isSubmitting ? "Enviando..." : "Responder"}
         </button>
       </div>
     </div>
