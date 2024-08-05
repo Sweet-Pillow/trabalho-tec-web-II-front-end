@@ -1,13 +1,36 @@
+// src/components/Vote/index.jsx
 import PropTypes from "prop-types";
 import { useState } from "react";
+import api from "../../lib/api"; // Importa a instância do axios
 
-function Vote({ votes }) {
+function Vote({ id, votes, onVote }) {
   const [currentVotes, setCurrentVotes] = useState(votes);
+
+  const updateVoteInBackend = async (newVoteCount) => {
+    // Envia a requisição PUT com o formato correto
+    await api.put(`/answers/${id}`, {
+      votesAmount: newVoteCount, // Atualiza a quantidade de votos
+    });
+    // Chama a função de callback com o novo número de votos
+    onVote(newVoteCount);
+  };
+
+  const handleUpvote = async () => {
+    const newVoteCount = currentVotes + 1;
+    setCurrentVotes(newVoteCount);
+    await updateVoteInBackend(newVoteCount);
+  };
+
+  const handleDownvote = async () => {
+    const newVoteCount = currentVotes - 1;
+    setCurrentVotes(newVoteCount);
+    await updateVoteInBackend(newVoteCount);
+  };
 
   return (
     <div className="flex flex-col items-center">
       <button
-        onClick={() => setCurrentVotes(currentVotes + 1)}
+        onClick={handleUpvote}
         className="border rounded-full border-gray-300 p-2 hover:bg-gray-100"
         aria-label="Upvote"
       >
@@ -23,7 +46,7 @@ function Vote({ votes }) {
       </button>
       <p className="text-xl py-1 font-medium">{currentVotes}</p>
       <button
-        onClick={() => setCurrentVotes(currentVotes - 1)}
+        onClick={handleDownvote}
         className="border rounded-full border-gray-300 p-2 hover:bg-gray-100"
         aria-label="Downvote"
       >
@@ -42,7 +65,9 @@ function Vote({ votes }) {
 }
 
 Vote.propTypes = {
+  id: PropTypes.string.isRequired,
   votes: PropTypes.number.isRequired,
+  onVote: PropTypes.func.isRequired,
 };
 
 export default Vote;

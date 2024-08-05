@@ -11,7 +11,6 @@ export default function QuestionDetail() {
   const [error, setError] = useState(null);
   const [newAnswer, setNewAnswer] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [votedAnswerId, setVotedAnswerId] = useState(null);
 
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -19,7 +18,7 @@ export default function QuestionDetail() {
       try {
         const response = await api.get(`/questions/${id}`);
         const sortedAnswers = response.data.answers.sort(
-          (a, b) => b.votesAmmount - a.votesAmmount
+          (a, b) => b.votesAmount - a.votesAmount
         );
         setQuestion({
           ...response.data,
@@ -36,28 +35,6 @@ export default function QuestionDetail() {
     fetchQuestion();
   }, [id]);
 
-  const handleVote = async (answerId) => {
-    if (votedAnswerId) {
-      alert("Você já votou em uma resposta.");
-      return;
-    }
-
-    try {
-      await api.post(`/answers/${answerId}/vote`);
-      setVotedAnswerId(answerId);
-      const response = await api.get(`/questions/${id}`);
-      const sortedAnswers = response.data.answers.sort(
-        (a, b) => b.votesAmmount - a.votesAmmount
-      );
-      setQuestion({
-        ...response.data,
-        answers: sortedAnswers,
-      });
-    } catch (error) {
-      console.error("Erro ao votar na resposta:", error);
-    }
-  };
-
   const handleSubmit = async () => {
     if (!newAnswer.trim()) return;
 
@@ -66,7 +43,7 @@ export default function QuestionDetail() {
       await api.post(`/answers/${id}`, { content: newAnswer });
       const response = await api.get(`/questions/${id}`);
       const sortedAnswers = response.data.answers.sort(
-        (a, b) => b.votesAmmount - a.votesAmmount
+        (a, b) => b.votesAmount - a.votesAmount
       );
       setQuestion({
         ...response.data,
@@ -89,11 +66,15 @@ export default function QuestionDetail() {
   return (
     <div className="max-w-[900px] px-6 py-8 md:px-10 flex flex-col">
       <div className="px-6 py-8 md:py-8 flex flex-col gap-4 border-b border-gray-200 bg-gray-50 rounded-lg mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-green-700">{title}</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-green-700">
+          {title}
+        </h1>
         <div className="flex flex-row justify-between text-sm text-gray-600 mb-4">
           <p>
             Perguntado por:{" "}
-            <span className="font-semibold">{author?.name || "Desconhecido"}</span>
+            <span className="font-semibold">
+              {author?.name || "Desconhecido"}
+            </span>
           </p>
           <p>Criado em: {new Date(createdAt).toLocaleDateString()}</p>
         </div>
@@ -112,16 +93,30 @@ export default function QuestionDetail() {
       {answers.map((answer) => (
         <Answer
           key={answer.id}
-          votes={answer.votesAmmount || 0}
+          id={answer.id}
+          votes={answer.votesAmount || 0}
           userName={answer.author?.name || "Desconhecido"}
           createData={new Date(answer.createdAt).toLocaleDateString()}
           answer={answer.content}
-          onVote={() => handleVote(answer.id)}
+          onVote={(newVoteCount) => {
+            const updatedAnswers = answers.map((ans) =>
+              ans.id === answer.id ? { ...ans, votesAmount: newVoteCount } : ans
+            );
+            setQuestion((prev) => ({
+              ...prev,
+              answers: updatedAnswers.sort(
+                (a, b) => b.votesAmount - a.votesAmount
+              ),
+            }));
+          }}
         />
       ))}
 
       <div className="flex flex-col gap-2 border-t border-gray-200 pt-4 mt-6">
-        <label htmlFor="answer" className="text-lg font-semibold text-green-700 mb-2">
+        <label
+          htmlFor="answer"
+          className="text-lg font-semibold text-green-700 mb-2"
+        >
           Escrever uma resposta
         </label>
         <textarea
@@ -135,7 +130,11 @@ export default function QuestionDetail() {
         ></textarea>
         <button
           type="button"
-          className={`mt-2 ${isSubmitting ? "bg-gray-400" : "bg-green-600"} text-white rounded px-4 py-2 hover:${isSubmitting ? "bg-gray-400" : "bg-green-700"}`}
+          className={`mt-2 ${
+            isSubmitting ? "bg-gray-400" : "bg-green-600"
+          } text-white rounded px-4 py-2 hover:${
+            isSubmitting ? "bg-gray-400" : "bg-green-700"
+          }`}
           onClick={handleSubmit}
           disabled={isSubmitting}
         >
