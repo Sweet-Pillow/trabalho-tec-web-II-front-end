@@ -72,9 +72,9 @@ export default function QuestionsList() {
   };
 
   return (
-    <div>
-      <h1>Lista de Perguntas</h1>
-      <div className='flex items-center gap-2 mb-4'>
+    <div className="bg-white min-h-screen p-4">
+      <h1 className="text-center text-2xl font-bold mb-4">Lista de Perguntas</h1>
+      <div className='flex justify-center items-center gap-2 mb-4'>
         <input
           type="text"
           value={titleFilter}
@@ -102,12 +102,12 @@ export default function QuestionsList() {
         </button>
       </div>
       {questions.length === 0 ? (
-        <p>Nenhum resultado encontrado</p>
+        <p className="text-center">Nenhum resultado encontrado</p>
       ) : (
         <>
-          <p>Total de Respostas: {totalAnswers}</p>
+          <p className="text-center">Total de Respostas: {totalAnswers}</p>
           {questions.map((question) => (
-            <div key={question.id} className="flex flex-row w-full border-y-2">
+            <div key={question.id} className="flex flex-row w-full border-y-2 bg-gray-100 mb-2">
               <div className="py-5 text-sm flex flex-col h-full w-2/12 text-nowrap gap-2 text-right">
                 <p>{question.votes || 0} Votos</p>
                 <p>{question.answers.length || 0} Respostas</p>
@@ -135,7 +135,7 @@ export default function QuestionsList() {
               </div>
             </div>
           ))}
-          <div className="flex items-center gap-2 mt-4">
+          <div className="flex justify-center items-center gap-2 mt-4">
             <button
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
