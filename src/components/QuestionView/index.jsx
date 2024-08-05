@@ -72,20 +72,20 @@ export default function QuestionsList() {
   };
 
   return (
-    <div className="bg-white min-h-screen p-4">
-      <h1 className="text-center text-2xl font-bold mb-4">Lista de Perguntas</h1>
-      <div className='flex justify-center items-center gap-2 mb-4'>
+    <div className="bg-gray-50 min-h-screen p-6">
+      <h1 className="text-center text-3xl font-bold mb-6 text-gray-800">Lista de Perguntas</h1>
+      <div className="flex justify-center items-center gap-4 mb-6">
         <input
           type="text"
           value={titleFilter}
           onChange={(e) => setTitleFilter(e.target.value)}
           placeholder="Buscar por título"
-          className="border border-gray-300 rounded px-2 py-1"
+          className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
         />
         <select
           value={tagFilter}
           onChange={(e) => setTagFilter(e.target.value)}
-          className="border border-gray-300 rounded px-2 py-1"
+          className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
         >
           <option value="">Selecionar Tag</option>
           <option value="HTML">HTML</option>
@@ -96,26 +96,26 @@ export default function QuestionsList() {
         </select>
         <button
           onClick={handleFilter}
-          className="bg-green-300 text-gray-800 rounded px-4 py-2 hover:bg-green-400"
+          className="bg-teal-500 text-white rounded-lg px-4 py-2 hover:bg-teal-600 transition duration-300"
         >
           Filtrar
         </button>
       </div>
       {questions.length === 0 ? (
-        <p className="text-center">Nenhum resultado encontrado</p>
+        <p className="text-center text-gray-600">Nenhum resultado encontrado</p>
       ) : (
         <>
-          <p className="text-center">Total de Respostas: {totalAnswers}</p>
+          <p className="text-center text-gray-700 mb-4">Total de Respostas: {totalAnswers}</p>
           {questions.map((question) => (
-            <div key={question.id} className="flex flex-row w-full border-y-2 bg-gray-100 mb-2">
-              <div className="py-5 text-sm flex flex-col h-full w-2/12 text-nowrap gap-2 text-right">
+            <div key={question.id} className="flex flex-row w-full border-b border-gray-200 bg-white mb-4 p-4 rounded-lg shadow">
+              <div className="py-2 text-sm flex flex-col h-full w-2/12 text-right text-gray-600 gap-1">
                 <p>{question.votes || 0} Votos</p>
                 <p>{question.answers.length || 0} Respostas</p>
               </div>
-              <div className="pl-5 py-4 flex flex-col gap-2 w-2/4">
+              <div className="pl-5 py-2 flex flex-col gap-2 w-3/4">
                 <Link
                   to={"/question/" + question.id}
-                  className="text-lg text-blue-600 hover:text-blue-800"
+                  className="text-xl font-semibold text-green-800 hover:text-green-900 transition duration-300"
                 >
                   {question.title}
                 </Link>
@@ -126,7 +126,7 @@ export default function QuestionsList() {
                     ))}
                   </div>
                   <div>
-                    <p className="text-xs">
+                    <p className="text-xs text-gray-500">
                       Criado por: {question.author?.name || "Desconhecido"} em{" "}
                       {new Date(question.createdAt).toLocaleString()}
                     </p>
@@ -135,11 +135,11 @@ export default function QuestionsList() {
               </div>
             </div>
           ))}
-          <div className="flex justify-center items-center gap-2 mt-4">
+          <div className="flex justify-center items-center gap-2 mt-6">
             <button
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
-              className="bg-gray-300 text-gray-700 rounded px-4 py-2"
+              className="bg-gray-300 text-gray-700 rounded-lg px-4 py-2 disabled:bg-gray-200"
             >
               Back
             </button>
@@ -148,8 +148,8 @@ export default function QuestionsList() {
                 key={page}
                 onClick={() => setCurrentPage(page)}
                 className={`${
-                  page === currentPage ? "bg-blue-600 text-white" : "bg-gray-300 text-gray-700"
-                } rounded px-4 py-2`}
+                  page === currentPage ? "bg-teal-500 text-white" : "bg-gray-300 text-gray-700"
+                } rounded-lg px-4 py-2 transition duration-300`}
               >
                 {page}
               </button>
@@ -157,7 +157,7 @@ export default function QuestionsList() {
             <button
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
-              className="bg-gray-300 text-gray-700 rounded px-4 py-2"
+              className="bg-gray-300 text-gray-700 rounded-lg px-4 py-2 disabled:bg-gray-200"
             >
               Next
             </button>

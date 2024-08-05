@@ -14,6 +14,8 @@ import Question from './pages/Question/index';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
+import Profile from './pages/Profile'; 
+
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -29,6 +31,10 @@ const router = createBrowserRouter([
 				element: <Home />
 			},
 			{
+				path: "/profile", // Nova rota para perfil
+				element: <Profile />
+			},
+			{
 				path: "/question/:id?",
 				element: <Question />
 			},
@@ -36,7 +42,6 @@ const router = createBrowserRouter([
 				path: "/ask",
 				element: <Ask />
 			},
-
 		]
 	},
 	{
@@ -48,6 +53,7 @@ const router = createBrowserRouter([
 		element: <Register />
 	}
 ]);
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
