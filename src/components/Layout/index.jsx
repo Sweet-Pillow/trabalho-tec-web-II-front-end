@@ -10,8 +10,6 @@ export default function Layout() {
 
 	const [userData, setUserData] = useState(null);
 	const [listOpen, setListOpen] = useState(false);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		const fetchUserData = async () => {
@@ -50,14 +48,12 @@ export default function Layout() {
 				<svg className="transition-colors p-1 rounded-full cursor-pointer hover:bg-orange-200 duration-300 ease-in-out fill-black" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#e8eaed"><path d="M180-204.62v-59.99h72.31v-298.47q0-80.69 49.81-142.69 49.8-62 127.88-79.31V-810q0-20.83 14.57-35.42Q459.14-860 479.95-860q20.82 0 35.43 14.58Q530-830.83 530-810v24.92q78.08 17.31 127.88 79.31 49.81 62 49.81 142.69v298.47H780v59.99H180Zm300-293.07Zm-.07 405.38q-29.85 0-51.04-21.24-21.2-21.24-21.2-51.07h144.62q0 29.93-21.26 51.12-21.26 21.19-51.12 21.19Zm-167.62-172.3h335.38v-298.47q0-69.46-49.11-118.57-49.12-49.12-118.58-49.12-69.46 0-118.58 49.12-49.11 49.11-49.11 118.57v298.47Z" /></svg>
 
 				<div className=" relative">
-					{/* <div onClick={() => setListOpen(!listOpen)} className="cursor-pointer min-h-full bg-no-repeat bg-contain bg-[url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSLU5_eUUGBfxfxRd4IquPiEwLbt4E_6RYMw&s')] rounded-full border border-black h-14 w-14"> */}
 					<div 
 						tabIndex={0}
 						onClick={() => setListOpen(!listOpen)} 
 						onBlur={() => setListOpen(false)}
 						className="bg-violet-400 hover:bg-violet-500 flex items-center justify-center cursor-pointer min-h-full  rounded-full border border-black h-14 w-14 transition-colors duration-300 ease-in-out">
 						<p className="font-medium text-3xl antialiased">{userData?.name[0]}</p>
-						{/* <img className="bg-cover bg-transparent" src="https://e7.pngegg.com/pngimages/722/101/png-clipart-computer-icons-user-profile-circle-abstract-miscellaneous-rim.png" alt="Profile" /> */}
 					</div>
 					{listOpen && <List />}
 
