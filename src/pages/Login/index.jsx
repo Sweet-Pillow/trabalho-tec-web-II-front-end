@@ -2,8 +2,10 @@ import { useForm } from "react-hook-form";
 import Cookies from "js-cookie";
 import api from "../../lib/api";
 import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
 
 export default function LoginForm() {
+  const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
     handleSubmit,
@@ -22,8 +24,14 @@ export default function LoginForm() {
         navigate("/");
       } else {
         console.error("Login failed:", response.statusText);
+        setErrorMessage("Login failed. Please check your credentials and try again.");
       }
     } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Error during login. Please try again later.");
+      }
       console.error("Error during login:", error);
     }
   };
@@ -35,6 +43,12 @@ export default function LoginForm() {
         className="flex flex-col gap-5 p-8 bg-white shadow-lg rounded-xl border border-gray-200 w-full max-w-md"
       >
         <p className="text-3xl font-semibold text-green-700 mb-4">Log In</p>
+
+        {errorMessage && (
+          <div className="text-red-500 text-sm text-center mb-4">
+            {errorMessage}
+          </div>
+        )}
 
         <label htmlFor="email" className="text-base font-medium text-gray-700">
           Email
@@ -53,10 +67,7 @@ export default function LoginForm() {
           <span className="text-red-500 text-sm">{errors.email.message}</span>
         )}
 
-        <label
-          htmlFor="password"
-          className="text-base font-medium text-gray-700"
-        >
+        <label htmlFor="password" className="text-base font-medium text-gray-700">
           Senha
         </label>
         <input
