@@ -78,7 +78,7 @@ export default function LoginForm() {
 					<span className="text-red-500">{errors.password.message}</span>
 				)}
 
-				<Link to={"/login"} className="text-sm hover:underline underline-offset-2">Já possui conta?</Link>
+				<Link to={"/login"} className="text-sm hover:underline underline-offset-2 w-fit">Já possui conta?</Link>
 
 				<button
 					type="submit"
