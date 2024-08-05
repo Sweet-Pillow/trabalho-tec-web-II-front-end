@@ -15,23 +15,10 @@ export default function LoginForm() {
 	const onSubmit = async (data) => {
 		try {
 			const response = await api.post("/users/sign-in", data);
-      if (response.status === 200) {
-        const { token, refreshToken } = response.data;
-        Cookies.set("token", token); // 1 hour = 1/24 of a day
-        Cookies.set("refreshToken", refreshToken, { expires: 7 }); // 7 days
-      } else {
-        console.error("Login failed:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  };
-
 			if (response.status === 200) {
 				const { token, refreshToken } = response.data;
-				Cookies.set("token", token, { expires: 1 / 24 }); // 1 hour = 1/24 of a day
+				Cookies.set("token", token); // 1 hour = 1/24 of a day
 				Cookies.set("refreshToken", refreshToken, { expires: 7 }); // 7 days
-				navigate("/");
 			} else {
 				console.error("Login failed:", response.statusText);
 			}
@@ -39,6 +26,7 @@ export default function LoginForm() {
 			console.error("Error during login:", error);
 		}
 	};
+
 
 	return (
 		<div className="h-screen w-screen flex justify-center items-center">
@@ -78,7 +66,7 @@ export default function LoginForm() {
 				{errors.password && (
 					<span className="text-red-500">{errors.password.message}</span>
 				)}
-				
+
 				<Link to={"/register"} className="text-sm hover:underline underline-offset-2 w-fit">Não possui conta?</Link>
 
 				<button
