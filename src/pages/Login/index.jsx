@@ -15,6 +15,17 @@ export default function LoginForm() {
 	const onSubmit = async (data) => {
 		try {
 			const response = await api.post("/users/sign-in", data);
+      if (response.status === 200) {
+        const { token, refreshToken } = response.data;
+        Cookies.set("token", token); // 1 hour = 1/24 of a day
+        Cookies.set("refreshToken", refreshToken, { expires: 7 }); // 7 days
+      } else {
+        console.error("Login failed:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
 
 			if (response.status === 200) {
 				const { token, refreshToken } = response.data;
