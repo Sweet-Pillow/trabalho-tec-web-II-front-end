@@ -17,12 +17,14 @@ function Vote({ id, votes, onVote }) {
 
   const handleUpvote = async () => {
     const newVoteCount = currentVotes + 1;
+    if (newVoteCount === 0) return;
     setCurrentVotes(newVoteCount);
     await updateVoteInBackend(newVoteCount);
   };
 
   const handleDownvote = async () => {
     const newVoteCount = currentVotes - 1;
+    if (newVoteCount === -1) return;
     setCurrentVotes(newVoteCount);
     await updateVoteInBackend(newVoteCount);
   };
