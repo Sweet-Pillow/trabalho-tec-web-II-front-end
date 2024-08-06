@@ -121,7 +121,7 @@ export default function Layout() {
 
             <li>
               <NavLink
-                to="/"
+                to="/home"
                 className="block text-lg font-semibold text-gray-800 hover:text-green-700 hover:bg-green-200 transition-colors duration-300 ease-in-out rounded p-2"
               >
                 Perguntas
