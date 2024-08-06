@@ -98,7 +98,7 @@ export default function UserQuestionsPage() {
   return (
     <div className="bg-gray-50 min-h-screen p-6">
       <h1 className="text-center text-3xl font-bold mb-6 text-gray-800">
-        Minhas Questões
+        Minhas Perguntas
       </h1>
       <div className="flex justify-center items-center gap-4 mb-6">
         <input
