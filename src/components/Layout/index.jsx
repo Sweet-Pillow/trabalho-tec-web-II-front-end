@@ -68,7 +68,7 @@ export default function Layout() {
 
           {/* Logo Title */}
           <Link
-            to="/"
+            to="/home"
             className="text-3xl font-bold text-gray-800 tracking-tight"
           >
             <span className="text-green-600">Code</span>
