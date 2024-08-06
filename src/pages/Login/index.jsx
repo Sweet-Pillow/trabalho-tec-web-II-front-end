@@ -21,7 +21,7 @@ export default function LoginForm() {
         const { token, refreshToken } = response.data;
         Cookies.set("token", token, { expires: 1 / 24 }); // 1 hour = 1/24 of a day
         Cookies.set("refreshToken", refreshToken, { expires: 7 }); // 7 days
-        navigate("/");
+        navigate("/home");
       } else {
         console.error("Login failed:", response.statusText);
         setErrorMessage("Login failed. Please check your credentials and try again.");
